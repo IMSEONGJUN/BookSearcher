@@ -17,30 +17,31 @@
 @implementation BookSearchManager
 
 NSString *baseURL = @"https://api.itbook.store/1.0/search";
-NSInteger perPage = 15;
 
 - (instancetype)init
 {
     if (self = [super init]) {
         self.books = [[NSMutableArray alloc] init];
         self.isSearching = NO;
-        self.hasMoreBooks = YES;
         self.page = 0;
+        self.hasMoreBooks = YES;
         self.cache = [[NSCache alloc] init];
     }
     return self;
 }
 
 - (void)fetchBookListWithKeyword:(NSString *)keyword
-                            page:(NSInteger)page
                          handler:(void (^)(NSError* _Nullable))completeHandler
 {
-//    if (!self.hasMoreBooks) {
-//        NSLog(@"No more List!!");
-//        return;
-//    }
+    if (self.hasMoreBooks == NO) {
+        NSLog(@"No more List!!");
+        completeHandler(nil);
+        return;
+    }
+    self.page += 1;
+    NSString *endPoint = [NSString stringWithFormat:@"%@/%@/%ld", baseURL, keyword, self.page];
+    NSLog(@"===> loading page: %ld", self.page);
     
-    NSString *endPoint = [NSString stringWithFormat:@"%@/%@/?per_page=%ld&page=%ld", baseURL, keyword, perPage, page];
     NSURL *url = [NSURL URLWithString:endPoint];
     
     if ([self.cache objectForKey:endPoint] != nil) {
@@ -66,22 +67,22 @@ NSInteger perPage = 15;
         }
         
         NSArray *booksArray = [NSArray arrayWithArray:bookJSON[@"books"]];
+        NSLog(@"=====> fetched count: %ld", booksArray.count);
+        if (booksArray.count < 10) {
+            self.hasMoreBooks = NO;
+        }
+        
         
         NSMutableArray<Book *> *books = [[NSMutableArray alloc] init];
         for (NSDictionary *bookDict in booksArray) {
-            Book *book = [[Book alloc] init];
-            book.title = bookDict[@"title"];
-            book.subtitle = bookDict[@"subtitle"];
-            book.isbn13 = bookDict[@"isbn13"];
-            book.price = bookDict[@"price"];
-            book.image = bookDict[@"image"];
-            book.url = bookDict[@"url"];
+            Book *book = [[Book alloc] initWithTitle:bookDict[@"title"]
+                                            subtitle:bookDict[@"subtitle"]
+                                                isbn:bookDict[@"isbn13"]
+                                               price:bookDict[@"price"]
+                                               image:bookDict[@"image"]
+                                                 url:bookDict[@"url"]];
             [books addObject:book];
         }
-        
-//        if (books.count < perPage) {
-//            self.hasMoreBooks = NO;
-//        }
         
         [self.books addObjectsFromArray:books];
         

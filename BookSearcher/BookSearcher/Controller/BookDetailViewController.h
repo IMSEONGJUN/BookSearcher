@@ -12,11 +12,20 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BookDetailViewController : UIViewController
 
 @property (nonatomic) UIImageView *bookImageView;
+
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *subtitleLabel;
-@property (nonatomic) UILabel *isbnLabel;
 @property (nonatomic) UILabel *priceLabel;
 @property (nonatomic) UILabel *urlLabel;
+@property (nonatomic) UILabel *authorsLabel;
+@property (nonatomic) UILabel *publisherLabel;
+@property (nonatomic) UILabel *isbn10Label;
+@property (nonatomic) UILabel *isbn13Label;
+@property (nonatomic) UILabel *pagesLabel;
+@property (nonatomic) UILabel *yearLabel;
+@property (nonatomic) UILabel *ratingLabel;
+@property (nonatomic) UILabel *descLabel;
+@property (nonatomic) UILabel *languageLabel;
 
 @end
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic) NSInteger page;
 @property BOOL hasMoreBooks;
 
-- (void)fetchBookListWithKeyword:(NSString *)keyword page:(NSInteger)page handler:(void (^)(NSError *))completeHandler;
+- (void)fetchBookListWithKeyword:(NSString *)keyword handler:(void (^)(NSError *))completeHandler;
 
 - (instancetype)init;
 

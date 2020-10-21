@@ -30,6 +30,7 @@ NSString *reuseID = @"BookCell";
     [_bookListTableView setDataSource:self];
     [_bookListTableView setDelegate:self];
     [_searchBar setDelegate:self];
+    [_bookListTableView setTableFooterView:[[UIView alloc] init]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -47,7 +48,7 @@ NSString *reuseID = @"BookCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -55,7 +56,7 @@ NSString *reuseID = @"BookCell";
     CGFloat contentHeight = self.bookListTableView.contentSize.height;
     CGFloat viewFrameHeight = self.view.frame.size.height;
     CGFloat contentOffsetY = self.bookListTableView.contentOffset.y;
-    NSLog(@"scrolling END");
+    
     if ( contentOffsetY > contentHeight - viewFrameHeight ) {
         if (self.searchManager.isSearching) {
             return;
@@ -66,6 +67,7 @@ NSString *reuseID = @"BookCell";
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [_searchManager.books removeAllObjects];
     self.searchManager.page = 0;
     self.searchManager.hasMoreBooks = YES;
     [self fetchBookInfoWithKeyword:self.searchBar.text];
@@ -89,7 +91,7 @@ NSString *reuseID = @"BookCell";
     }
     
     [_spinner startAnimating];
-    [_searchManager fetchBookListWithKeyword:keyword page: self.searchManager.page + 1  handler:^(NSError *err) {
+    [_searchManager fetchBookListWithKeyword:keyword handler:^(NSError *err) {
         
         if (err != nil) {
             NSLog(@"%@",err);

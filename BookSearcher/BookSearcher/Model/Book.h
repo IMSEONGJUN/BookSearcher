@@ -18,6 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *image;
 @property (nonatomic, copy) NSString *url;
 
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle isbn:(NSString *)isbn price:(NSString *)price image:(NSString *)imageURL url:(NSString *)bookURL;
+
+- (instancetype)init NS_UNAVAILABLE;
+
 @end
 
 NS_ASSUME_NONNULL_END
