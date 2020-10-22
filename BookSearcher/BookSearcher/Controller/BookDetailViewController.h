@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *subtitleLabel;
 @property (nonatomic) UILabel *priceLabel;
-@property (nonatomic) UILabel *urlLabel;
+@property (nonatomic) UIButton *urlButton;
 @property (nonatomic) UILabel *authorsLabel;
 @property (nonatomic) UILabel *publisherLabel;
 @property (nonatomic) UILabel *isbn10Label;

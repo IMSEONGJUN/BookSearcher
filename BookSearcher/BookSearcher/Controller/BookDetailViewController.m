@@ -7,6 +7,7 @@
 
 #import "BookDetailViewController.h"
 #import "BookDetail.h"
+#import "BookShopViewController.h"
 
 @interface BookDetailViewController ()
 
@@ -31,7 +32,7 @@
         self.ratingLabel = [[UILabel alloc] init];
         self.descLabel = [[UILabel alloc] init];
         self.priceLabel = [[UILabel alloc] init];
-        self.urlLabel = [[UILabel alloc] init];
+        self.urlButton = [[UIButton alloc] init];
     }
     return self;
 }
@@ -62,7 +63,7 @@
 {
     CGFloat margin = 20;
     
-    NSArray *labels = [NSArray arrayWithObjects:
+    NSMutableArray *labels = [NSMutableArray arrayWithObjects:
                        self.titleLabel,
                        self.subtitleLabel,
                        self.authorsLabel,
@@ -75,22 +76,27 @@
                        self.ratingLabel,
                        self.descLabel,
                        self.priceLabel,
-                       self.urlLabel,
                        nil];
+    
+    for (UILabel *label in labels) {
+        label.numberOfLines = 0;
+    }
+    
+    [labels addObject:self.urlButton];
     
     self.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     self.subtitleLabel.font = [UIFont systemFontOfSize:15];
     self.subtitleLabel.textColor = [UIColor darkGrayColor];
     self.priceLabel.font = [UIFont boldSystemFontOfSize:18];
-    self.urlLabel.textColor = [UIColor blueColor];
+    
+    [_urlButton.titleLabel setNumberOfLines:0];
+    [_urlButton.titleLabel setFont: [UIFont boldSystemFontOfSize:18]];
+    [_urlButton setTitleColor: [UIColor blueColor] forState: normal];
+    [_urlButton addTarget:self action:@selector(didTapURLButton) forControlEvents:UIControlEventTouchUpInside];
     
     UIStackView *detailStack = [[UIStackView alloc] initWithArrangedSubviews:labels];
     [detailStack setAxis:UILayoutConstraintAxisVertical];
     detailStack.spacing = 8;
-    
-    for (UILabel *label in labels) {
-        label.numberOfLines = 0;
-    }
     
     [self.view addSubview:detailStack];
     [detailStack setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -113,7 +119,17 @@
     self.ratingLabel.text = [NSString stringWithFormat:@"Rating : %@", detail.rating];
     self.descLabel.text = [NSString stringWithFormat:@"Desc : %@", detail.desc];
     self.priceLabel.text = [NSString stringWithFormat:@"Price : %@", detail.price];
-    self.urlLabel.text = [NSString stringWithFormat:@"URL : %@", detail.url];
+    [_urlButton setTitle:detail.url forState:normal];
+}
+
+- (void)didTapURLButton
+{
+    BookShopViewController *shopVC = [[BookShopViewController alloc] init];
+    [shopVC setTitle:@"BOOK SHOP"];
+    shopVC.url = self.urlButton.titleLabel.text;
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:shopVC];
+    [navi setModalPresentationStyle:UIModalPresentationFullScreen];
+    [self presentViewController:navi animated:YES completion:nil];
 }
 
 @end

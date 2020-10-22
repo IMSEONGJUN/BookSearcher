@@ -21,6 +21,8 @@
 		45CD35E5253FFF2C00505D9C /* ImageDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35E4253FFF2C00505D9C /* ImageDownloadManager.m */; };
 		45CD35EA25403FBA00505D9C /* BookDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35E925403FBA00505D9C /* BookDetail.m */; };
 		45CD35F52541651A00505D9C /* NotificationNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35F42541651A00505D9C /* NotificationNames.m */; };
+		45CD36042541712D00505D9C /* BookShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD36032541712D00505D9C /* BookShopViewController.m */; };
+		45CD360D254174FF00505D9C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CD36072541745B00505D9C /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,10 @@
 		45CD35E925403FBA00505D9C /* BookDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDetail.m; sourceTree = "<group>"; };
 		45CD35F32541651A00505D9C /* NotificationNames.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNames.h; sourceTree = "<group>"; };
 		45CD35F42541651A00505D9C /* NotificationNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationNames.m; sourceTree = "<group>"; };
+		45CD36022541712D00505D9C /* BookShopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookShopViewController.h; sourceTree = "<group>"; };
+		45CD36032541712D00505D9C /* BookShopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookShopViewController.m; sourceTree = "<group>"; };
+		45CD36072541745B00505D9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		45CD36092541747500505D9C /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45CD360D254174FF00505D9C /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +75,7 @@
 			children = (
 				45CD3592253FC1AD00505D9C /* BookSearcher */,
 				45CD3591253FC1AD00505D9C /* Products */,
+				45CD36062541745B00505D9C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +112,8 @@
 				45CD35B0253FC22A00505D9C /* SearchViewController.m */,
 				45CD35DE253FF93900505D9C /* BookDetailViewController.h */,
 				45CD35DF253FF93900505D9C /* BookDetailViewController.m */,
+				45CD36022541712D00505D9C /* BookShopViewController.h */,
+				45CD36032541712D00505D9C /* BookShopViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +167,15 @@
 				45CD35F42541651A00505D9C /* NotificationNames.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		45CD36062541745B00505D9C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45CD36092541747500505D9C /* SafariServices.framework */,
+				45CD36072541745B00505D9C /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +254,7 @@
 				45CD35BB253FC9E800505D9C /* BookSearchManager.m in Sources */,
 				45CD35B1253FC22A00505D9C /* SearchViewController.m in Sources */,
 				45CD35B6253FC71A00505D9C /* BookCell.m in Sources */,
+				45CD36042541712D00505D9C /* BookShopViewController.m in Sources */,
 				45CD35BF253FD05B00505D9C /* Book.m in Sources */,
 				45CD3598253FC1AD00505D9C /* SceneDelegate.m in Sources */,
 				45CD35E5253FFF2C00505D9C /* ImageDownloadManager.m in Sources */,
