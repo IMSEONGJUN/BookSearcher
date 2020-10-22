@@ -49,7 +49,7 @@
     [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (error) {
-            NSLog(@"Invalid URL: %@",error);
+            NSLog(@"Invalid URL... Error: %@",error);
             completeHandler(nil);
             return;
         }
