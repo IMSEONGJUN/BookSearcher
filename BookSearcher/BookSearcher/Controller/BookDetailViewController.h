@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BookDetail.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UILabel *ratingLabel;
 @property (nonatomic) UILabel *descLabel;
 @property (nonatomic) UILabel *languageLabel;
+
+- (void)setDetailInfomation:(BookDetail *)detail;
 
 @end
 

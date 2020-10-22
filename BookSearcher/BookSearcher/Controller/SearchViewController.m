@@ -9,6 +9,8 @@
 #import "BookCell.h"
 #import "Book.h"
 #import "BookSearchManager.h"
+#import "BookDetailViewController.h"
+
 
 @interface SearchViewController ()
 
@@ -48,6 +50,8 @@ NSString *reuseID = @"BookCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
+    
 
 }
 

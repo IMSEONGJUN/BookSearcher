@@ -19,6 +19,7 @@
 		45CD35BF253FD05B00505D9C /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35BE253FD05B00505D9C /* Book.m */; };
 		45CD35E0253FF93900505D9C /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35DF253FF93900505D9C /* BookDetailViewController.m */; };
 		45CD35E5253FFF2C00505D9C /* ImageDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35E4253FFF2C00505D9C /* ImageDownloadManager.m */; };
+		45CD35EA25403FBA00505D9C /* BookDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35E925403FBA00505D9C /* BookDetail.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		45CD35DF253FF93900505D9C /* BookDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
 		45CD35E3253FFF2C00505D9C /* ImageDownloadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageDownloadManager.h; sourceTree = "<group>"; };
 		45CD35E4253FFF2C00505D9C /* ImageDownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageDownloadManager.m; sourceTree = "<group>"; };
+		45CD35E825403FBA00505D9C /* BookDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookDetail.h; sourceTree = "<group>"; };
+		45CD35E925403FBA00505D9C /* BookDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDetail.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,8 @@
 			children = (
 				45CD35BD253FD05B00505D9C /* Book.h */,
 				45CD35BE253FD05B00505D9C /* Book.m */,
+				45CD35E825403FBA00505D9C /* BookDetail.h */,
+				45CD35E925403FBA00505D9C /* BookDetail.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				45CD35BF253FD05B00505D9C /* Book.m in Sources */,
 				45CD3598253FC1AD00505D9C /* SceneDelegate.m in Sources */,
 				45CD35E5253FFF2C00505D9C /* ImageDownloadManager.m in Sources */,
+				45CD35EA25403FBA00505D9C /* BookDetail.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

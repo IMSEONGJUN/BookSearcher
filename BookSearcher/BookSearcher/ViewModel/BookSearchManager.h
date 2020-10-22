@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Book.h"
+#import "BookDetail.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BookSearchManager : NSObject
@@ -16,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic) NSInteger page;
 @property BOOL hasMoreBooks;
 
-- (void)fetchBookListWithKeyword:(NSString *)keyword handler:(void (^)(NSError *))completeHandler;
-
+- (void)fetchBookListWithKeyword:(NSString *)keyword handler:(void (^)(NSError* _Nullable))completeHandler;
+- (void)fetchBookDetailInfo:(NSString *)isbn handler:(void (^)(BookDetail* _Nullable))completeHandler;
 - (instancetype)init;
 
 @end

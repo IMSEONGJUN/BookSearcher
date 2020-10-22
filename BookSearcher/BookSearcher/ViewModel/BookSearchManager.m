@@ -7,6 +7,7 @@
 
 #import "BookSearchManager.h"
 #import "Book.h"
+#import "BookDetail.h"
 
 @interface BookSearchManager ()
 
@@ -16,8 +17,8 @@
 
 @implementation BookSearchManager
 
-NSString *baseURL = @"https://api.itbook.store/1.0/search";
-
+NSString *baseURL = @"https://api.itbook.store/1.0";
+//                    https://api.itbook.store/1.0/books/9781430236627
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -39,7 +40,7 @@ NSString *baseURL = @"https://api.itbook.store/1.0/search";
         return;
     }
     self.page += 1;
-    NSString *endPoint = [NSString stringWithFormat:@"%@/%@/%ld", baseURL, keyword, self.page];
+    NSString *endPoint = [NSString stringWithFormat:@"/search/%@/%@/%ld", baseURL, keyword, self.page];
     NSLog(@"===> loading page: %ld", self.page);
     
     NSURL *url = [NSURL URLWithString:endPoint];
@@ -94,4 +95,54 @@ NSString *baseURL = @"https://api.itbook.store/1.0/search";
     }] resume];
 }
 
+- (void)fetchBookDetailInfo:(NSString *)isbn handler:(void (^)(BookDetail* _Nullable))completeHandler
+{
+    NSString *endPoint = [NSString stringWithFormat:@"/books/%@/", isbn];
+    NSURL *url = [NSURL URLWithString:endPoint];
+    
+    if ([self.cache objectForKey:endPoint] != nil) {
+        completeHandler([self.cache objectForKey:endPoint]);
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            return;
+        }
+        
+        NSError *err;
+        NSDictionary *bookJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
+        if (err){
+            NSLog(@"Failed to serialize: %@", err);
+            completeHandler(nil);
+            return;
+        }
+        
+        BookDetail *detail = [[BookDetail alloc] init];
+        detail.title = bookJSON[@"title"];
+        detail.subtitle = bookJSON[@"subtitle"];
+        detail.authors = bookJSON[@"authors"];
+        detail.publisher = bookJSON[@"publisher"];
+        detail.language = bookJSON[@"language"];
+        detail.isbn10 = bookJSON[@"isbn10"];
+        detail.isbn13 = bookJSON[@"isbn13"];
+        detail.pages = bookJSON[@"pages"];
+        detail.year = bookJSON[@"year"];
+        detail.rating = bookJSON[@"rating"];
+        detail.desc = bookJSON[@"desc"];
+        detail.price = bookJSON[@"price"];
+        detail.image = bookJSON[@"image"];
+        detail.url = bookJSON[@"url"];
+        
+        [self.cache setObject:detail forKey:endPoint];
+        
+        completeHandler(detail);
+        
+    }] resume];
+}
+
 @end
+ 

@@ -73,4 +73,9 @@
     [[detailStack.bottomAnchor constraintEqualToAnchor: self.view.safeAreaLayoutGuide.bottomAnchor constant:-20] setActive:YES];
 }
 
+- (void)setDetailInfomation:(BookDetail *)detail
+{
+    
+}
+
 @end
