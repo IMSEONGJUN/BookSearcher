@@ -15,6 +15,9 @@
 
 @implementation BookDetailViewController
 
+
+#pragma mark - Lifecycle
+
 - (instancetype)init
 {
     self = [super init];
@@ -43,6 +46,9 @@
     [self configureImageView];
     [self configureStackView];
 }
+
+
+#pragma mark - Initial UI Setup
 
 - (void)configureImageView
 {
@@ -121,6 +127,9 @@
     self.priceLabel.text = [NSString stringWithFormat:@"Price : %@", detail.price];
     [_urlButton setTitle:detail.url forState:normal];
 }
+
+
+#pragma mark - Action Handler
 
 - (void)didTapURLButton
 {

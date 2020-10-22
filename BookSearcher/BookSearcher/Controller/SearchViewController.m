@@ -52,6 +52,7 @@ NSString *reuseID = @"BookCell";
     return cell;
 }
 
+
 #pragma mark - UITableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -129,6 +130,9 @@ NSString *reuseID = @"BookCell";
         });
     }];
 }
+
+
+#pragma mark - Set Noti Reaction
 
 - (void)configureNotificationReaction
 {

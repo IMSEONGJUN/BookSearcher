@@ -36,6 +36,9 @@
     [self goToWebPageWithURLString:self.url];
 }
 
+
+#pragma mark - Initial UI Setup
+
 - (void)configureWebView
 {
     self.webView = [[WKWebView alloc] init];
@@ -87,6 +90,8 @@
     [[_indicator.centerYAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.centerYAnchor] setActive:YES];
 }
 
+
+#pragma mark - Action Handler
 - (void)didTapToolBarButton:(UIBarButtonItem *)sender
 {
     switch (sender.tag) {
@@ -103,9 +108,11 @@
 
 - (void)didTapCloseButton
 {
-    NSLog(@"Tap Close");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+#pragma mark - WKWebView
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
