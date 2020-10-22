@@ -8,6 +8,7 @@
 #import "BookSearchManager.h"
 #import "Book.h"
 #import "BookDetail.h"
+#import "NotificationNames.h"
 
 @interface BookSearchManager ()
 
@@ -18,7 +19,7 @@
 @implementation BookSearchManager
 
 NSString *baseURL = @"https://api.itbook.store/1.0";
-//                    https://api.itbook.store/1.0/books/9781430236627
+
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -31,16 +32,20 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
     return self;
 }
 
+
+#pragma mark - Fetch a list of books
+
 - (void)fetchBookListWithKeyword:(NSString *)keyword
                          handler:(void (^)(NSError* _Nullable))completeHandler
 {
     if (self.hasMoreBooks == NO) {
-        NSLog(@"No more List!!");
+        NSLog(@"No more Books!!");
         completeHandler(nil);
         return;
     }
+    
     self.page += 1;
-    NSString *endPoint = [NSString stringWithFormat:@"/search/%@/%@/%ld", baseURL, keyword, self.page];
+    NSString *endPoint = [NSString stringWithFormat:@"%@/search/%@/%ld", baseURL, keyword, self.page];
     NSLog(@"===> loading page: %ld", self.page);
     
     NSURL *url = [NSURL URLWithString:endPoint];
@@ -50,8 +55,8 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
     }
     
     self.isSearching = YES;
-    __weak typeof(self) weakSelf = self;
     
+    __weak typeof(self) weakSelf = self;
     [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -59,29 +64,47 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
             return;
         }
         
+        if (error != nil){
+            NSLog(@"Failed to fetch data: %@", error);
+            completeHandler(error);
+            return;
+        }
+        
+        if (data == nil){
+            NSLog(@"No data came in");
+            return;
+        }
+        
         NSError *err;
-        NSDictionary *bookJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
-        if (err){
+        NSDictionary *bookJSON = [NSJSONSerialization JSONObjectWithData:data
+                                                      options:NSJSONReadingAllowFragments
+                                                      error:&err];
+        if (err != nil){
             NSLog(@"Failed to serialize: %@", err);
             completeHandler(err);
             return;
         }
-        
+
         NSArray *booksArray = [NSArray arrayWithArray:bookJSON[@"books"]];
-        NSLog(@"=====> fetched count: %ld", booksArray.count);
+        NSLog(@"=====> Additionally fetched book count: %ld, current page: %ld", booksArray.count, self.page);
+        if (booksArray.count == 0) {
+            [NSNotificationCenter.defaultCenter postNotificationName:[NotificationNames noResults] object:nil];
+        }
+        
         if (booksArray.count < 10) {
             self.hasMoreBooks = NO;
         }
         
-        
         NSMutableArray<Book *> *books = [[NSMutableArray alloc] init];
         for (NSDictionary *bookDict in booksArray) {
-            Book *book = [[Book alloc] initWithTitle:bookDict[@"title"]
-                                            subtitle:bookDict[@"subtitle"]
-                                                isbn:bookDict[@"isbn13"]
-                                               price:bookDict[@"price"]
-                                               image:bookDict[@"image"]
-                                                 url:bookDict[@"url"]];
+            Book *book = [[Book alloc]
+                          initWithTitle:bookDict[@"title"]
+                          subtitle:bookDict[@"subtitle"]
+                          isbn:bookDict[@"isbn13"]
+                          price:bookDict[@"price"]
+                          image:bookDict[@"image"]
+                          url:bookDict[@"url"]
+                         ];
             [books addObject:book];
         }
         
@@ -95,26 +118,26 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
     }] resume];
 }
 
-- (void)fetchBookDetailInfo:(NSString *)isbn handler:(void (^)(BookDetail* _Nullable))completeHandler
+
+#pragma mark - Fetch a detail of selected book
+
+- (void)fetchBookDetailInfoWithISBN:(NSString *)isbn handler:(void (^)(BookDetail* _Nullable))completeHandler
 {
-    NSString *endPoint = [NSString stringWithFormat:@"/books/%@/", isbn];
+    NSString *endPoint = [NSString stringWithFormat:@"%@/books/%@", baseURL, isbn];
     NSURL *url = [NSURL URLWithString:endPoint];
-    
+                                     
     if ([self.cache objectForKey:endPoint] != nil) {
         completeHandler([self.cache objectForKey:endPoint]);
         return;
     }
     
-    __weak typeof(self) weakSelf = self;
     [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (!strongSelf) {
-            return;
-        }
-        
         NSError *err;
-        NSDictionary *bookJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
+        NSDictionary *bookJSON = [NSJSONSerialization JSONObjectWithData:data
+                                                      options:NSJSONReadingAllowFragments
+                                                      error:&err];
+        
         if (err){
             NSLog(@"Failed to serialize: %@", err);
             completeHandler(nil);
@@ -122,26 +145,31 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
         }
         
         BookDetail *detail = [[BookDetail alloc] init];
-        detail.title = bookJSON[@"title"];
-        detail.subtitle = bookJSON[@"subtitle"];
-        detail.authors = bookJSON[@"authors"];
-        detail.publisher = bookJSON[@"publisher"];
-        detail.language = bookJSON[@"language"];
-        detail.isbn10 = bookJSON[@"isbn10"];
-        detail.isbn13 = bookJSON[@"isbn13"];
-        detail.pages = bookJSON[@"pages"];
-        detail.year = bookJSON[@"year"];
-        detail.rating = bookJSON[@"rating"];
-        detail.desc = bookJSON[@"desc"];
-        detail.price = bookJSON[@"price"];
-        detail.image = bookJSON[@"image"];
-        detail.url = bookJSON[@"url"];
+        [self makeBookDetail:detail withDict:bookJSON];
         
         [self.cache setObject:detail forKey:endPoint];
         
         completeHandler(detail);
         
     }] resume];
+}
+
+- (void)makeBookDetail:(BookDetail *)detail withDict:(NSDictionary *)bookJSON
+{
+    detail.title = bookJSON[@"title"];
+    detail.subtitle = bookJSON[@"subtitle"];
+    detail.authors = bookJSON[@"authors"];
+    detail.publisher = bookJSON[@"publisher"];
+    detail.language = bookJSON[@"language"];
+    detail.isbn10 = bookJSON[@"isbn10"];
+    detail.isbn13 = bookJSON[@"isbn13"];
+    detail.pages = bookJSON[@"pages"];
+    detail.year = bookJSON[@"year"];
+    detail.rating = bookJSON[@"rating"];
+    detail.desc = bookJSON[@"desc"];
+    detail.price = bookJSON[@"price"];
+    detail.image = bookJSON[@"image"];
+    detail.url = bookJSON[@"url"];
 }
 
 @end

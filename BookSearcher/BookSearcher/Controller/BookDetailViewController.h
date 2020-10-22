@@ -6,10 +6,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BookDetail.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class BookDetail;
 @interface BookDetailViewController : UIViewController
 
 @property (nonatomic) UIImageView *bookImageView;

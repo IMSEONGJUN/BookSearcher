@@ -10,7 +10,8 @@
 #import "Book.h"
 #import "BookSearchManager.h"
 #import "BookDetailViewController.h"
-
+#import "ImageDownloadManager.h"
+#import "NotificationNames.h"
 
 @interface SearchViewController ()
 
@@ -32,8 +33,11 @@ NSString *reuseID = @"BookCell";
     [_bookListTableView setDataSource:self];
     [_bookListTableView setDelegate:self];
     [_searchBar setDelegate:self];
-    [_bookListTableView setTableFooterView:[[UIView alloc] init]];
+    [self configureNotificationReaction];
 }
+
+
+#pragma mark - UITableView DataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -48,15 +52,34 @@ NSString *reuseID = @"BookCell";
     return cell;
 }
 
+#pragma mark - UITableView Delegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
     
-
+    BookCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *isbn = cell.isbnLabel.text;
+    
+    BookDetailViewController *bookDetailVC = [[BookDetailViewController alloc] init];
+    bookDetailVC.bookImageView.image = cell.bookImageView.image;
+    bookDetailVC.title = cell.titleLable.text;
+    
+    
+    [self.searchManager fetchBookDetailInfoWithISBN:isbn handler:^(BookDetail * _Nullable detail) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [bookDetailVC setDetailInfomation:detail];
+        });
+    }];
+    [self.navigationController pushViewController:bookDetailVC animated:YES];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+    if ([_searchBar.text isEqualToString:@""]) {
+        return;
+    }
+    
     CGFloat contentHeight = self.bookListTableView.contentSize.height;
     CGFloat viewFrameHeight = self.view.frame.size.height;
     CGFloat contentOffsetY = self.bookListTableView.contentOffset.y;
@@ -69,6 +92,8 @@ NSString *reuseID = @"BookCell";
     }
 }
 
+
+#pragma mark - UISearchBar Delegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [_searchManager.books removeAllObjects];
@@ -83,11 +108,7 @@ NSString *reuseID = @"BookCell";
 }
 
 
-- (IBAction)handleTapGesture:(id)sender
-{
-    [_searchBar resignFirstResponder];
-}
-
+#pragma mark - API Service
 - (void)fetchBookInfoWithKeyword:(NSString *)keyword
 {
     if (self.searchManager.isSearching) {
@@ -101,15 +122,27 @@ NSString *reuseID = @"BookCell";
             NSLog(@"%@",err);
             return;
         }
-        __weak typeof(self) weakSelf = self;
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (!strongSelf) {
-                return;
-            }
             [self.bookListTableView reloadData];
             [self.spinner stopAnimating];
         });
+    }];
+}
+
+- (void)configureNotificationReaction
+{
+    [NSNotificationCenter.defaultCenter addObserverForName: [NotificationNames noResults] object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull noti) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No result"
+                                                                       message:@"There are no such books"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        
+        [alert addAction:okAction];
+        
+        [self presentViewController:alert animated:YES completion:nil];
     }];
 }
 

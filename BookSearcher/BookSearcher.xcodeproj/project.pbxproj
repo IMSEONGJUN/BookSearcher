@@ -20,6 +20,7 @@
 		45CD35E0253FF93900505D9C /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35DF253FF93900505D9C /* BookDetailViewController.m */; };
 		45CD35E5253FFF2C00505D9C /* ImageDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35E4253FFF2C00505D9C /* ImageDownloadManager.m */; };
 		45CD35EA25403FBA00505D9C /* BookDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35E925403FBA00505D9C /* BookDetail.m */; };
+		45CD35F52541651A00505D9C /* NotificationNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CD35F42541651A00505D9C /* NotificationNames.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		45CD35E4253FFF2C00505D9C /* ImageDownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageDownloadManager.m; sourceTree = "<group>"; };
 		45CD35E825403FBA00505D9C /* BookDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookDetail.h; sourceTree = "<group>"; };
 		45CD35E925403FBA00505D9C /* BookDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookDetail.m; sourceTree = "<group>"; };
+		45CD35F32541651A00505D9C /* NotificationNames.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationNames.h; sourceTree = "<group>"; };
+		45CD35F42541651A00505D9C /* NotificationNames.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationNames.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				45CD35C4253FD5C500505D9C /* Support */,
+				45CD35EE2541624F00505D9C /* Utils */,
 				45CD35C5253FD5E600505D9C /* View */,
 				45CD35C1253FD5A300505D9C /* Controller */,
 				45CD35C3253FD5BE00505D9C /* ViewModel */,
@@ -144,6 +148,15 @@
 				45CD35B5253FC71A00505D9C /* BookCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		45CD35EE2541624F00505D9C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				45CD35F32541651A00505D9C /* NotificationNames.h */,
+				45CD35F42541651A00505D9C /* NotificationNames.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45CD35F52541651A00505D9C /* NotificationNames.m in Sources */,
 				45CD3595253FC1AD00505D9C /* AppDelegate.m in Sources */,
 				45CD35A6253FC1AE00505D9C /* main.m in Sources */,
 				45CD35E0253FF93900505D9C /* BookDetailViewController.m in Sources */,

@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="g5C-Mf-XJK">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="g5C-Mf-XJK">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search" showsSearchResultsButton="YES" showsCancelButton="YES" id="Vy8-Oa-pw0">
@@ -112,9 +112,6 @@
                             <constraint firstItem="cRq-32-evd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ht9-9z-QDM"/>
                             <constraint firstItem="g5C-Mf-XJK" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pZm-w2-2hU"/>
                         </constraints>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="Xe7-Od-FwA" appends="YES" id="3DI-p6-jRa"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Search List" id="rZO-jK-oiZ"/>
                     <connections>
@@ -124,11 +121,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Xe7-Od-FwA">
-                    <connections>
-                        <action selector="handleTapGesture:" destination="BYZ-38-t0r" id="fYE-c5-eID"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
         </scene>

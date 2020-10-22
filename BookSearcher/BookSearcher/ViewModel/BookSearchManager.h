@@ -6,21 +6,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Book.h"
-#import "BookDetail.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class Book,
+       BookDetail;
 
 @interface BookSearchManager : NSObject
 
 @property (strong, nonatomic) NSMutableArray<Book *> *books;
-@property (atomic) BOOL isSearching;
-@property (atomic) NSInteger page;
-@property BOOL hasMoreBooks;
+@property (nonatomic) BOOL isSearching;
+@property (nonatomic) NSInteger page;
+@property (nonatomic) BOOL hasMoreBooks;
 
 - (void)fetchBookListWithKeyword:(NSString *)keyword handler:(void (^)(NSError* _Nullable))completeHandler;
-- (void)fetchBookDetailInfo:(NSString *)isbn handler:(void (^)(BookDetail* _Nullable))completeHandler;
-- (instancetype)init;
+- (void)fetchBookDetailInfoWithISBN:(NSString *)isbn handler:(void (^)(BookDetail* _Nullable))completeHandler;
 
 @end
 

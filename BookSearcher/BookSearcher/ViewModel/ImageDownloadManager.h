@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ImageDownloadManager : NSObject
 
++ (instancetype)sharedInstance;
 - (void)downloadBookImageWithString:(NSString *)urlString handler:(void (^)(UIImage *))completeHandler;
 
 @end

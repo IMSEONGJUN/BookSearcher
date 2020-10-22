@@ -6,11 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Book.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class Book;
 @interface BookCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLable;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;

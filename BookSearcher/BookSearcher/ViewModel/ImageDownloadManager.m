@@ -15,6 +15,18 @@
 
 @implementation ImageDownloadManager
 
++ (instancetype)sharedInstance
+{
+    static ImageDownloadManager *shared = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[ImageDownloadManager alloc] init];
+    });
+    
+    return shared;
+}
+
 - (instancetype)init
 {
     self = [super init];
