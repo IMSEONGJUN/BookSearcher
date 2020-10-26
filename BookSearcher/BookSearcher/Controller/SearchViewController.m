@@ -17,7 +17,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *bookListTableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+//@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic) UISearchController *searchController;
 
 @property (strong, nonatomic) BookSearchManager *searchManager;
 
@@ -27,13 +28,31 @@
 
 NSString *reuseID = @"BookCell";
 
+#pragma mark - life cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _searchManager = [[BookSearchManager alloc] init];
     [_bookListTableView setDataSource:self];
     [_bookListTableView setDelegate:self];
-    [_searchBar setDelegate:self];
+    [self configureSearchController];
     [self configureNotificationReaction];
+}
+
+- (void)dealloc
+{
+    [NSNotificationCenter.defaultCenter removeObserver:self name:[NotificationNames noResults] object:nil];
+}
+
+
+#pragma mark - Initial Setup
+- (void)configureSearchController
+{
+    self.searchController = [[UISearchController alloc] init];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.obscuresBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.placeholder = @"Search Books in English";
+    self.navigationItem.searchController = self.searchController;
 }
 
 
@@ -72,12 +91,13 @@ NSString *reuseID = @"BookCell";
             [bookDetailVC setDetailInfomation:detail];
         });
     }];
+    
     [self.navigationController pushViewController:bookDetailVC animated:YES];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if ([_searchBar.text isEqualToString:@""]) {
+    if ([_searchController.searchBar.text isEqualToString:@""]) {
         return;
     }
     
@@ -89,7 +109,7 @@ NSString *reuseID = @"BookCell";
         if (self.searchManager.isSearching) {
             return;
         }
-        [self fetchBookInfoWithKeyword:self.searchBar.text];
+        [self fetchBookInfoWithKeyword:self.searchController.searchBar.text];
     }
 }
 
@@ -100,12 +120,7 @@ NSString *reuseID = @"BookCell";
     [_searchManager.books removeAllObjects];
     self.searchManager.page = 0;
     self.searchManager.hasMoreBooks = YES;
-    [self fetchBookInfoWithKeyword:self.searchBar.text];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
+    [self fetchBookInfoWithKeyword:self.searchController.searchBar.text];
 }
 
 

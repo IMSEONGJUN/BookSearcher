@@ -20,14 +20,9 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="g5C-Mf-XJK">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search" showsSearchResultsButton="YES" showsCancelButton="YES" id="Vy8-Oa-pw0">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BookCell" rowHeight="142" id="1af-VI-Jlb" customClass="BookCell">
-                                        <rect key="frame" x="0.0" y="72" width="414" height="142"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="142"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1af-VI-Jlb" id="Jhf-AX-jem">
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="142"/>
@@ -116,13 +111,12 @@
                     <navigationItem key="navigationItem" title="Search List" id="rZO-jK-oiZ"/>
                     <connections>
                         <outlet property="bookListTableView" destination="g5C-Mf-XJK" id="11X-1c-Vmx"/>
-                        <outlet property="searchBar" destination="Vy8-Oa-pw0" id="xZB-67-Su3"/>
                         <outlet property="spinner" destination="cRq-32-evd" id="SGk-sQ-QdE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+            <point key="canvasLocation" x="943" y="138"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uze-R4-7Jt">

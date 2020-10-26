@@ -10,13 +10,14 @@
 
 @interface BookShopViewController ()
 
-@property (nonatomic) WKWebView *webView;
+@property (nonatomic, weak) WKWebView *webView;
 @property (nonatomic) UIToolbar *toolbar;
 @property (nonatomic) UIBarButtonItem *back;
 @property (nonatomic) UIBarButtonItem *forward;
 @property (nonatomic) UIActivityIndicatorView *indicator;
 
 @end
+
 
 @implementation BookShopViewController
 
@@ -41,7 +42,8 @@
 
 - (void)configureWebView
 {
-    self.webView = [[WKWebView alloc] init];
+    WKWebView *temp = [[WKWebView alloc] init];
+    self.webView = temp;
     [self.view addSubview:self.webView];
     [_webView setBackgroundColor:[UIColor whiteColor]];
     
@@ -112,7 +114,7 @@
 }
 
 
-#pragma mark - WKWebView
+#pragma mark - WKWebView Delegates
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {

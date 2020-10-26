@@ -92,7 +92,7 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
         }
         
         if (booksArray.count < 10) {
-            self.hasMoreBooks = NO;
+            weakSelf.hasMoreBooks = NO;
         }
         
         NSMutableArray<Book *> *books = [[NSMutableArray alloc] init];
@@ -145,7 +145,7 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
         }
         
         BookDetail *detail = [[BookDetail alloc] init];
-        [self makeBookDetail:detail withDict:bookJSON];
+        [self setBookDetailInfo:detail withDict:bookJSON];
         
         [self.cache setObject:detail forKey:endPoint];
         
@@ -154,7 +154,7 @@ NSString *baseURL = @"https://api.itbook.store/1.0";
     }] resume];
 }
 
-- (void)makeBookDetail:(BookDetail *)detail withDict:(NSDictionary *)bookJSON
+- (void)setBookDetailInfo:(BookDetail *)detail withDict:(NSDictionary *)bookJSON
 {
     detail.title = bookJSON[@"title"];
     detail.subtitle = bookJSON[@"subtitle"];
