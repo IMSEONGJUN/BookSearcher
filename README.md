@@ -1,5 +1,5 @@
 # BookSearcher
 
 - Book Searching App
-- MVVM and Objective-C
+- First Objective-C project
 - UI : Code and Storyboard mixed
